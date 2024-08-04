@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(184deg, #8754ff, #8E2DE2);
+        }
+
+        .start-screen,
+        .score-container {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button {
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        #start-button,
+        #restart {
+            font-size: 1.3em;
+            padding: 0.5em 1.8em;
+            border-radius: 0.2em;
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        #restart {
+            margin-top: 0.9em;
+        }
+
+        #display-container {
+            background-color: #ffffff;
+            padding: 3.1em 1.8em;
+            width: 80%;
+            max-width: 37.5em;
+            margin: 0 auto;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
+            border-radius: 0.6em;
+        }
+
+        .header {
+            margin-bottom: 1.8em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 0.6em;
+            border-bottom: 0.1em solid #c0bfd2;
+        }
+
+        .timer-div {
+            background-color: #e1f5fe;
+            width: 7.5em;
+            border-radius: 1.8em;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.7em 1.8em;
+        }
+
+        .question {
+            margin-bottom: 1.25em;
+            font-weight: 600;
+        }
+
+        .option-div {
+            font-size: 0.9em;
+            width: 100%;
+            padding: 1em;
+            margin: 0.3em 0;
+            text-align: left;
+            outline: none;
+            background: transparent;
+            border: 1px solid #c0bfd2;
+            border-radius: 0.3em;
+        }
+
+        .option-div:disabled {
+            color: #000000;
+            cursor: not-allowed;
+        }
+
+        #next-button {
+            font-size: 1em;
+            margin-top: 1.5em;
+            background-color: #8754ff;
+            color: #ffffff;
+            padding: 0.7em 1.8em;
+            border-radius: 0.3em;
+            float: right;
+            box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .incorrect {
+            background-color: #ffdde0;
+            color: #d32f2f;
+            border-color: #d32f2f;
+        }
+
+        .correct {
+            background-color: #e7f6d5;
+            color: #689f38;
+            border-color: #689f38;
+        }
+
+        #user-score {
+            font-size: 1.5em;
+            color: #fff;
+        }
+
+        .start-screen .popup-info {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(.9);
+            width: 500px;
+            background: #fff;
+            border-radius: 6px;
+            padding: 10px 25px;
+
+
+        }
+
+        .start-screen .popup-info h2 {
+            font-size: 50px;
+            color: #c40094;
+
+        }
+
+        .start-screen .popup-info .info {
+            display: inline-block;
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+            margin: 4px 0;
+        }
+
+        .start-screen .popup-info .btn-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #999;
+            margin-top: 10px;
+            padding: 15px 0 7px;
+        }
+
+        .start-screen .popup-info .btn-group .info-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 130px;
+            height: 45px;
+            background: #c40094;
+            border: 2px solid #c40094;
+            outline: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 16px;
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+            cursor: pointer;
+            transition: .5s;
+        }
+        .start-screen .popup-info .btn-group .info-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 130px;
+            height: 45px;
+            background: #c40094;
+            border: 2px solid #c40094;
+            outline: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 16px;
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+            cursor: pointer;
+            transition: .5s;
+        }
+        .start-screen .popup-info .btn-group .exit-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 130px;
+            height: 45px;
+            background: #c40094;
+            border: 2px solid #c40094;
+            outline: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 16px;
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+            cursor: pointer;
+            transition: .5s;
+        }
+        .start-screen .popup-info .btn-group  .viedo-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 130px;
+            height: 45px;
+            background: #c40094;
+            border: 2px solid #c40094;
+            outline: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 16px;
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+            cursor: pointer;
+            transition: .5s;
+            
+            
+        }
+
+
+
+        .start-screen .popup-info .btn-group #start-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 130px;
+            height: 45px;
+            background: #c40094;
+            border: 2px solid #c40094;
+            outline: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 16px;
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+            cursor: pointer;
+            transition: .5s;
+        }
+    </style>
+
+
+    <title>Quiz App using JavaScript - @code.scientist x @codingtorque</title>
+</head>
+
+<body>
+    <!-- Further code here -->
+    <div class="start-screen">
+        <div class="popup-info">
+            <h2>Quiz Guide</h2>
+            <span class="info">1.A set of 20 Questions.</span><br>
+            <span class="info">2.Each question carries one point.</span><br>
+            <span class="info">3.Choose the appropriate answers .</span><br>
+            <span class="info">4.Incorrect answers are highlighted in red color.</span><br>
+            <span class="info">5.Finial score will be displayed at the end.</span><br>
+
+            <div class="btn-group">
+                <a href="index.html" class="exit-btn">Exit</a>
+                <a href="https://youtube.com/shorts/iFR9gwN2TyY?feature=shared" class="viedo-btn">Watch video</a> 
+                <button id="start-button">Start</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="display-container">
+        <div class="header">
+            <div class="number-of-count">
+                <span class="number-of-question">1 of 3 questions</span>
+            </div>
+            <div class="timer-div">
+                <img src="https://uxwing.com/wp-content/themes/uxwing/download/time-and-date/stopwatch-icon.png"
+                    width="20px" />
+                <span class="time-left">10s</span>
+            </div>
+        </div>
+        <div id="container">
+            <!-- questions and options will be displayed here -->
+        </div>
+        <button id="next-button">Next</button>
+    </div>
+    <div class="score-container hide">
+        <div id="user-score">Demo Score</div>
+        <button id="restart">Restart</button>
+    </div>
+
+    <script>
+        //References
+        
+        let timeLeft = document.querySelector(".time-left");
+        let quizContainer = document.getElementById("container");
+        let nextBtn = document.getElementById("next-button");
+        let countOfQuestion = document.querySelector(".number-of-question");
+        let displayContainer = document.getElementById("display-container");
+        let scoreContainer = document.querySelector(".score-container");
+        let restart = document.getElementById("restart");
+        let userScore = document.getElementById("user-score");
+        let startScreen = document.querySelector(".start-screen");
+        let startButton = document.getElementById("start-button");
+        let questionCount;
+        let scoreCount = 0;
+        let count = 21;
+        let countdown;
+
+        //Questions and Options array
+       
+        const quizArray = [
+            {
+                id: "0",
+                question: "A pond has a patch of lily pads that doubles in size every day. If the pond is completely covered in 48 days, on which day was the pond half-covered?",
+                options: ["24", "30", "47", "40"],
+                correct: "47",
+            },
+            {
+                id: "1",
+                question: " In a small village, every villager either always tells the truth or always lies. A traveler meets three villagers: Alice, Bob, and Charlie. Alice says, Bob is a liar.Bob says, Charlie is a liar. Charlie says, Alice and Bob are both liars. How many of these villagers are truth-tellers?",
+                options: ["0", "1", "2", "3"],
+                correct: "2",
+            },
+            {
+                id: "2",
+                question: "I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?",
+                options: ["An echo", "  A whisper", "A shadow", "A ghost"],
+                correct: " An echo",
+            },
+            {
+                id: "3",
+                question: "A man is looking at a photograph of someone. His friend asks, Who is it you are looking at? The man replies, Brothers and sisters, I have none. But that man's father is my father's son.Who is in the photograph?",
+                options: ["His son", "His father", "Himself", "His nephew"],
+                correct: "His son",
+            },
+            {
+                id: "4",
+                question: "Four friends, Anna, Ben, Carla, and Dave, are playing cards. Anna says, Ben has the ace. Ben says, I don't have the ace.Carla says, Dave has the ace. Dave says, I don't have the ace.Only one is telling the truth. Who has the ace?",
+                options: ["Anna", "Ben", "Carla", "Dave"],
+                correct: "Carla",
+            },
+            {
+                id: "5",
+                question: "What word becomes shorter when you add two letters to it?",
+                options: ["Short", "Tall", "Long", "Small"],
+                correct: "Short",
+            }, {
+                id: "6",
+                question: "A man says, I always lie.Is he telling the truth or lying?",
+                options: ["The statement is a paradox.", "He is telling the truth.", "He is lying", "None of the above."],
+                correct: "The statement is a paradox.",
+            },
+            {
+                id: "7",
+                question: "If a clock takes 3 seconds to strike 3 times, how long will it take to strike 6 times?:",
+                options: ["17 seconds", " 8 seconds", "7 seconds", "4 seconds"],
+                correct: "7 seconds",
+            },
+            {
+                id: "8",
+                question: "You have 8 balls, one of which is heavier, and a balance scale. What is the minimum number of weighings needed to find the heavier ball?",
+                options: ["1", "2", "3", "4"],
+                correct: "3",
+            },
+            {
+                id: "9",
+                question: "You are a scientist observing a phenomenon where a certain chemical reaction doubles the amount of substance every minute. If you start with 1 gram of the substance, how many grams will you have after 5 minutes? ",
+                options: ["41 grams", "14 grams", "55 grams", "32 grams"],
+                correct: "32 grams",
+            },
+            {
+                id: "10",
+                question: "You are given a sequence of numbers: 2, 6, 12, 20, 30, ?. What number should replace the question mark?  ",
+                options: ["42", "30", "35", "40"],
+                correct: "42",
+            },
+            {
+                id: "11",
+                question: "What is the next number in the sequence: 1, 1, 2, 3, 5, 8, ?  ",
+                options: ["41", "14", "55", "13"],
+                correct: "13",
+            },
+            {
+                id: "12",
+                question: "What is the next number in the sequence: 2, 4, 8, 16, ? ",
+                options: ["41", "14", "55", "32"],
+                correct: "32",
+            },
+            {
+                id: "13",
+                question: "A man is looking at a photograph of someone. His friend asks who it is. The man replies, Brothers and sisters, I have none. But that man's father is my father's son.Who is in the photograph? ",
+                options: ["The man's son", "The man's friend", "The man's himself", "The man's brother"],
+                correct: "The man's son",
+            },
+            {
+                id: "14",
+                question: "What comes next in the sequence: 2, 6, 12, 20, 30, ? ",
+                options: ["41", "14", "55", "42"],
+                correct: "42",
+            },
+            {
+                id: "15",
+                question: "A factory produces 500 widgets in 10 hours with 5 machines. If the factory gets 5 more machines and the production rate per machine remains constant, how long will it take to produce 1000 widgets? ",
+                options: ["4 hours", "1 hour", "5 hours", "8 hours"],
+                correct: "8 hours",
+            },
+            {
+                id: "16",
+                question: "You invest $1000 in a bank account that offers 5% annual interest compounded annually. How much money will you have in the account after 3 years? ",
+                options: ["$1150.00", "$1157.63", "$1160.00", "$1180.00"],
+                correct: "$1157.63",
+            },
+            {
+                id: "17",
+                question: "A book has pages numbered from 1 to 100. You accidentally tear out a page, and the sum of the remaining page numbers is 4949. What is the number of the missing page? ",
+                options: ["41", "75", "95", "80"],
+                correct: "75",
+            },
+            {
+                id: "18",
+                question: "What comes next in the sequence: 3, 9, 27, 81, ? ",
+                options: ["245", "114", "551", "321"],
+                correct: "245",
+            },
+            {
+                id: "19",
+                question: "What is the next number in the sequence: 1, 1, 2, 3, 5, 8, ?  ",
+                options: ["41", "14", "13", "32"],
+                correct: "13",
+            },
+        ];
+
+        //Restart Quiz
+        restart.addEventListener("click", () => {
+            initial();
+            displayContainer.classList.remove("hide");
+            scoreContainer.classList.add("hide");
+        });
+
+        //Next Button
+        nextBtn.addEventListener(
+            "click",
+            (displayNext = () => {
+                //increment questionCount
+                questionCount += 1;
+                //if last question
+                if (questionCount == quizArray.length) {
+                    //hide question container and display score
+                    displayContainer.classList.add("hide");
+                    scoreContainer.classList.remove("hide");
+                    //user score
+                    userScore.innerHTML =
+                        "Your score is " + scoreCount + " out of " + questionCount;
+                } else {
+                    //display questionCount
+                    countOfQuestion.innerHTML =
+                        questionCount + 1 + " of " + quizArray.length + " Question";
+                    //display quiz
+                    quizDisplay(questionCount);
+                    count = 21;
+                    clearInterval(countdown);
+                    timerDisplay();
+                }
+            })
+        );
+
+        //Timer
+        const timerDisplay = () => {
+            countdown = setInterval(() => {
+                count--;
+                timeLeft.innerHTML = `${count}s`;
+                if (count == 0) {
+                    clearInterval(countdown);
+                    displayNext();
+                }
+            }, 1000);
+        };
+
+        //Display quiz
+        const quizDisplay = (questionCount) => {
+            let quizCards = document.querySelectorAll(".container-mid");
+            //Hide other cards
+            quizCards.forEach((card) => {
+                card.classList.add("hide");
+            });
+            //display current question card
+            quizCards[questionCount].classList.remove("hide");
+        };
+
+        //Quiz Creation
+        function quizCreator() {
+            //randomly sort questions
+            quizArray.sort(() => Math.random() - 0.5);
+            //generate quiz
+            for (let i of quizArray) {
+                //randomly sort options
+                i.options.sort(() => Math.random() - 0.5);
+                //quiz card creation
+                let div = document.createElement("div");
+                div.classList.add("container-mid", "hide");
+                //question number
+                countOfQuestion.innerHTML = 1 + " of " + quizArray.length + " Question";
+                //question
+                let question_DIV = document.createElement("p");
+                question_DIV.classList.add("question");
+                question_DIV.innerHTML = i.question;
+                div.appendChild(question_DIV);
+                //options
+                div.innerHTML += `
+    <button class="option-div" onclick="checker(this)">${i.options[0]}</button>
+     <button class="option-div" onclick="checker(this)">${i.options[1]}</button>
+      <button class="option-div" onclick="checker(this)">${i.options[2]}</button>
+       <button class="option-div" onclick="checker(this)">${i.options[3]}</button>
+    `;
+                quizContainer.appendChild(div);
+            }
+        }
+
+        //Checker Function to check if option is correct or not
+        function checker(userOption) {
+            let userSolution = userOption.innerText;
+            let question =
+                document.getElementsByClassName("container-mid")[questionCount];
+            let options = question.querySelectorAll(".option-div");
+
+            //if user clicked answer == correct option stored in object
+            if (userSolution === quizArray[questionCount].correct) {
+                userOption.classList.add("correct");
+                scoreCount++;
+            } else {
+                userOption.classList.add("incorrect");
+                //For marking the correct option
+                options.forEach((element) => {
+                    if (element.innerText == quizArray[questionCount].correct) {
+                        element.classList.add("correct");
+                    }
+                });
+            }
+
+            //clear interval(stop timer)
+            clearInterval(countdown);
+            //disable all options
+            options.forEach((element) => {
+                element.disabled = true;
+            });
+        }
+
+        //initial setup
+        function initial() {
+            quizContainer.innerHTML = "";
+            questionCount = 0;
+            scoreCount = 0;
+            count = 21;
+            clearInterval(countdown);
+            timerDisplay();
+            quizCreator();
+            quizDisplay(questionCount);
+        }
+
+        //when user click on start button
+        startButton.addEventListener("click", () => {
+            startScreen.classList.add("hide");
+            displayContainer.classList.remove("hide");
+            initial();
+        });
+
+        //hide quiz and display start screen
+        window.onload = () => {
+            startScreen.classList.remove("hide");
+            displayContainer.classList.add("hide");
+        };
+    </script>
+</body>
+
+</html>

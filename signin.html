@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>signin</title>
+    <style>
+        * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+           font-family: "poppins",sans-serif;
+            
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: rgb(197, 240, 197);
+          
+            background-size: cover;
+            background-position: center;
+        }
+
+        h2 {
+            color:green;
+            font-size: 40px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        .container h2 {
+           font-size: 35px;
+            text-align: center;
+        }
+        
+        body a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 130px;
+            height: 45px;
+            background: #c40094;
+            border: 2px solid #c40094;
+            outline: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 20px;
+            border-radius: 20px;
+            color: #fff;
+            margin-top:20px ;
+            margin-bottom: 25px;
+
+        }
+
+        body .reset-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 130px;
+            height: 45px;
+            background: #c40094;
+            border: 2px solid #c40094;
+            outline: none;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 20px;
+            color: white;
+            border-radius: 20px;
+            margin-top:20px ;
+            margin-bottom: 25px;
+         }
+
+        body .reset-btn:hover {
+            background-color: #c40094;
+            box-shadow: none;
+        }
+
+        .container {
+            display: flex;
+            background:transparent;
+            color:green;
+            justify-content: space-between;
+            border-radius: 20px;
+            padding: 30px 40px;
+            border-color: green;
+        
+    }
+    .container .register form {
+        justify-content: space-between;
+        margin-top:20px ;
+        margin-bottom: 25px;
+
+    }
+
+    </style>
+</head>
+
+<body>
+
+    <!--Step 13 Create a form using table-->
+    <div class="container">
+        
+            <section class="register">
+                <h2>--- Registration Form |</h2>
+                <form >
+                    <table>
+                        <tr >
+                            <td>Name:</td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <td>Age:</td>
+                            <td><input type="number"></td>
+                        </tr>
+                        <tr>
+                            <td>Gender:</td>
+                            <td>
+                                <input type="radio">Male
+                                <input type="radio">Female
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td><input type="email"></td>
+                        </tr>
+                        <tr>
+                            <td>Select a Department:</td>
+                            <td>
+                                <select>
+                                    <option>Select a Department</option>
+                                    <option>CSE</option>
+                                    <option>ECE</option>
+                                    <option>IT</option>
+                                    <option>civil</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Upload your Resume</td>
+                            <td><input type="file"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="reset" class="reset-btn"></td>
+                            <td><a href="index.html">Register</a></td>
+
+                        </tr>
+
+
+                    </table>
+                </form>
+             </section>
+             </div>
+</body>
+
+</html>
